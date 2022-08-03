@@ -1,0 +1,39 @@
+for i in range(len(smatch)):
+            smatch[i]=smatch[i].replace(sfolder,"")
+            smatch[i]=smatch[i].split("\\")
+        print(smatch)
+        for i in smatch:
+            for j in i:
+                if("." in j):
+                    sfolderfiles.append(j)
+                else:
+                    if(j not in sfolderfolder):
+                       sfolderfolder.append(j)
+        tfolderfiles=[]
+        tfolderfolder=[]
+        tmatch=[os.path.join(r,file) for r,d,f in os.walk(tfolder) for file in f]
+        for i in range(len(tmatch)):
+            tmatch[i]=tmatch[i].replace(tfolder,"")
+            tmatch[i]=tmatch[i].split("\\")
+        print(tmatch)
+        for i in tmatch:
+            for j in i:
+                if("." in j):
+                    tfolderfiles.append(j)
+                else:
+                    if(j not in tfolderfolder):
+                       tfolderfolder.append(j)
+        commonfiles=set(sfolderfiles).intersection(set(tfolderfiles))
+        commonfolders=set(sfolderfolder).intersection(set(tfolderfolder))
+        if(len(commonfolders)==0):
+            commonfolders="No Common Folder's"
+        if(len(commonfiles)==0):
+            commonfiles="No Common File's"
+        msg="Source Folder Files"
+        msg2="Source Folder Folders"
+        msg3="Target Folder Files"
+        msg4="Target Folder Folders"
+        msg5="Common Files"
+        msg6="Common Folders"
+        return render(request,"fileapp/folder.html",{"msg":msg,"msg2":msg2,"sfolderfiles":sfolderfiles,"sfolderfolder":sfolderfolder,"tfolderfiles":tfolderfiles,
+                                                     "tfolderfolder":tfolderfolder,"msg3":msg3,"msg4":msg4,"msg5":msg5,"msg6":msg6,"commonfiles":commonfiles,"commonfolder":commonfolders})
